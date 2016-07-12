@@ -11,37 +11,37 @@
 #include <arpa/inet.h>
 #include <pthread.h>
 
-#include "serverSocket.cpp"
-#include "epoll.cpp"
+// #include "serverSocket.cpp"
+// #include "epoll.cpp"
 #include "serverAnalyze.cpp"
+#include "threadControl.cpp"
 
-
-#include "queuePool.cpp"
+//#include "queuePool.cpp"
 
 
 using namespace std;
 
-struct serverRecv {
-	serverSocket *serverSt;
-	epoll *serverEpoll;
-	cacheLinkTable *pLinkTable;
-};
+// struct serverRecv {
+// 	serverSocket *serverSt;
+// 	epoll *serverEpoll;
+// 	cacheLinkTable *pLinkTable;
+// };
 
-struct serverSend {
-	cacheLinkTable *pLinkTable;
-};
+// struct serverSend {
+// 	cacheLinkTable *pLinkTable;
+// };
 
-struct serverAnal {
-	cacheLinkTable *pSendTable;
-	cacheLinkTable *pRecvTable;
-};
+// struct serverAnal {
+// 	cacheLinkTable *pSendTable;
+// 	cacheLinkTable *pRecvTable;
+// };
 // define server struction
 struct serverRecv recvOprate;
 struct serverSend sendOprate;
 struct serverAnal doubleOperate;
 
-pthread_mutex_t RecvMutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t SendMutex = PTHREAD_MUTEX_INITIALIZER;
+// pthread_mutex_t RecvMutex = PTHREAD_MUTEX_INITIALIZER;
+// pthread_mutex_t SendMutex = PTHREAD_MUTEX_INITIALIZER;
 void setNoBlocking(int st)
 {
 	int opts = fcntl(st, F_GETFL);
@@ -156,112 +156,105 @@ static void *epollRecv(void *arg) {
 	}
 	
 }
-/***********************************************************************/
-static void *epollSend(void *arg)
-{
-	cout<<"发送线程启动"<<endl;
-	struct serverAnal *balabala = (struct serverAnal*)arg;
-	cacheLinkTable *psendTable = (*balabala).pSendTable;
+// /***********************************************************************/
+// static void *epollSend(void *arg)
+// {
+// 	cout<<"发送线程启动"<<endl;
+// 	struct serverAnal *balabala = (struct serverAnal*)arg;
+// 	cacheLinkTable *psendTable = (*balabala).pSendTable;
 	
 
-	while(1){
-		sleep(5);
-		cout<<"send sendLinkTable Node NUM  "<<psendTable->getNodeNum()<<endl;
-		//analyze->serverLinkTableAnalyze();
-		//cout<<"end analyze sendLinkTable Node NUM  "<<sendLinkTable->getNodeNum()<<endl;
-		//cout<<"end analyze recvLinkTable Node NUM  "<<recvLinkTable->getNodeNum()<<endl;
+// 	while(1){
+// 		sleep(5);
+// 		cout<<"send sendLinkTable Node NUM  "<<psendTable->getNodeNum()<<endl;
+// 		//analyze->serverLinkTableAnalyze();
+// 		//cout<<"end analyze sendLinkTable Node NUM  "<<sendLinkTable->getNodeNum()<<endl;
+// 		//cout<<"end analyze recvLinkTable Node NUM  "<<recvLinkTable->getNodeNum()<<endl;
 		
-		//cout<<1111<<endl;
-		if(psendTable->getNodeNum() > 0)
-		{
+// 		//cout<<1111<<endl;
+// 		if(psendTable->getNodeNum() > 0)
+// 		{
 			
-			cout<<"有"<<psendTable->getNodeNum()<<"条要发送"<<endl;
+// 			cout<<"有"<<psendTable->getNodeNum()<<"条要发送"<<endl;
 
-			//sleep(5);
-			pthread_mutex_lock(&SendMutex);
-			cout<<"发送队列已经加锁"<<endl;
-			cacheLinkNode *tempNode = psendTable->getEndNode();
-			pthread_mutex_unlock(&SendMutex);
-			cout<<"发送队列已经解锁"<<endl;
+// 			//sleep(5);
+// 			pthread_mutex_lock(&SendMutex);
+// 			cout<<"发送队列已经加锁"<<endl;
+// 			cacheLinkNode *tempNode = psendTable->getEndNode();
+// 			pthread_mutex_unlock(&SendMutex);
+// 			cout<<"发送队列已经解锁"<<endl;
 
-			int st = tempNode->getst();
-			char *haha="服务器准备发送\t";
-			send(st, haha, strlen(haha), 0);
-			char buffer[MAXSIZE];
-			memset(&buffer, 0, MAXSIZE);
+// 			int st = tempNode->getst();
+// 			char *haha="服务器准备发送\t";
+// 			send(st, haha, strlen(haha), 0);
+// 			char buffer[MAXSIZE];
+// 			memset(&buffer, 0, MAXSIZE);
 
-			tempNode->getbuffer(buffer);
-			//cout<<buffer<<endl;
-			send(st, buffer, strlen(buffer), 0);
+// 			tempNode->getbuffer(buffer);
+// 			//cout<<buffer<<endl;
+// 			send(st, buffer, strlen(buffer), 0);
 
-			cout<<"已经向"<<st<<"发送了"<<buffer<<endl;
-		}
-	}	
-}
+// 			cout<<"已经向"<<st<<"发送了"<<buffer<<endl;
+// 		}
+// 	}	
+// }
 
-/***********************************************************************/
-static void *epollAnalyze(void *arg) {
-	cout<<"处理线程启动"<<endl;
-	struct serverAnal *balabala = (struct serverAnal *)arg;
-	cacheLinkTable *sendTable = (*balabala).pSendTable;
-	cacheLinkTable *recvTable = (*balabala).pRecvTable;
+// /***********************************************************************/
+// static void *epollAnalyze(void *arg) {
+// 	cout<<"处理线程启动"<<endl;
+// 	struct serverAnal *balabala = (struct serverAnal *)arg;
+// 	cacheLinkTable *sendTable = (*balabala).pSendTable;
+// 	cacheLinkTable *recvTable = (*balabala).pRecvTable;
 	
-	char buffer[MAXSIZE];
-	memset(&buffer, 0, sizeof(buffer));
-	serverAnalyze *pServerAnalyze = new serverAnalyze();
-	while(1){
-		//cout<<"epoll analyze sendLinkTable Node NUM  "<<sendTable->getNodeNum()<<endl;
-		cout<<"epoll analyze recvLinkTable Node NUM  "<<recvTable->getNodeNum()<<endl;
-		sleep(10);
-		if(recvTable->getNodeNum() != 0) {
+// 	char buffer[MAXSIZE];
+// 	memset(&buffer, 0, sizeof(buffer));
+// 	serverAnalyze *pServerAnalyze = new serverAnalyze();
+// 	while(1){
+// 		//cout<<"epoll analyze sendLinkTable Node NUM  "<<sendTable->getNodeNum()<<endl;
+// 		cout<<"epoll analyze recvLinkTable Node NUM  "<<recvTable->getNodeNum()<<endl;
+// 		sleep(10);
+// 		if(recvTable->getNodeNum() != 0) {
 
-			pthread_mutex_lock(&RecvMutex);
-			cout<<"正在处理一条信息"<<endl;
-			cacheLinkNode *tempLinkNode = recvTable->getEndNode();
+// 			pthread_mutex_lock(&RecvMutex);
+// 			cout<<"正在处理一条信息"<<endl;
+// 			cacheLinkNode *tempLinkNode = recvTable->getEndNode();
 
-			//messageBuffer *message = new messageBuffer();
+// 			//messageBuffer *message = new messageBuffer();
 			
-			tempLinkNode->getbuffer(buffer);
-			//set buffer
-			pServerAnalyze->setBuffer(buffer);
-			pServerAnalyze->judgeBuffer();
-			//message->setBuffer(buffer);
-			//message->messageDivide();
+// 			tempLinkNode->getbuffer(buffer);
+// 			//set buffer
+// 			pServerAnalyze->setBuffer(buffer);
+// 			pServerAnalyze->judgeBuffer();
+// 			//message->setBuffer(buffer);
+// 			//message->messageDivide();
 
-			//------------------------------
-			//cacheLinkNode *insertSendTableNode = new cacheLinkNode();
+// 			//------------------------------
+// 			//cacheLinkNode *insertSendTableNode = new cacheLinkNode();
 
-			cout<<"dengdai "<<endl;
-			sleep(5);
-			//tempLinkNode->copyLinkNode(insertSendTableNode);
+// 			cout<<"dengdai "<<endl;
+// 			sleep(5);
+// 			//tempLinkNode->copyLinkNode(insertSendTableNode);
 
-			pthread_mutex_unlock(&RecvMutex);
-			cout<<"信息处理完毕"<<endl;
-			//break;
+// 			pthread_mutex_unlock(&RecvMutex);
+// 			cout<<"信息处理完毕"<<endl;
+// 			//break;
 
-			pthread_mutex_lock(&SendMutex);
-			//cout<<"正在加入发送队列"<<endl;
-			//sendTable->insertNode(insertSendTableNode);
-			pthread_mutex_unlock(&SendMutex);
-			cout<<"添加完成"<<endl;
+// 			pthread_mutex_lock(&SendMutex);
+// 			//cout<<"正在加入发送队列"<<endl;
+// 			//sendTable->insertNode(insertSendTableNode);
+// 			pthread_mutex_unlock(&SendMutex);
+// 			cout<<"添加完成"<<endl;
 
-			memset(&buffer, 0, sizeof(buffer));
-		}
+// 			memset(&buffer, 0, sizeof(buffer));
+// 		}
 
-		sleep(5);
-		//cout<<"epoll analyze end analyze sendLinkTable Node NUM  "<<sendTable->getNodeNum()<<endl;
-		//cout<<"epoll analyze end analyze recvLinkTable Node NUM  "<<recvTable->getNodeNum()<<endl;
-	}
-	cout<<"处理线程退出"<<endl;
-}
+// 		sleep(5);
+// 		//cout<<"epoll analyze end analyze sendLinkTable Node NUM  "<<sendTable->getNodeNum()<<endl;
+// 		//cout<<"epoll analyze end analyze recvLinkTable Node NUM  "<<recvTable->getNodeNum()<<endl;
+// 	}
+// 	cout<<"处理线程退出"<<endl;
+// }
 /***********************************************************************/
-
-/*--------------------------------------------------------------------------------------------------------------*/
-
-/*--------------------------------------------------------------------------------------------------------------*/
-
-
-
 
 int main () {
 	// new send recv queue
@@ -289,9 +282,14 @@ int main () {
 
 	pthread_t thrd1, thrd2, thrd3, thrd4;
 	pthread_create(&thrd1, NULL, epollRecv, &recvOprate);
-	pthread_create(&thrd3, NULL, epollAnalyze, &doubleOperate);
-	pthread_create(&thrd2, NULL, epollSend, &sendOprate);
-	pthread_create(&thrd4, NULL, epollAnalyze, &doubleOperate);
+	// pthread_create(&thrd3, NULL, epollAnalyze, &doubleOperate);
+	// pthread_create(&thrd2, NULL, epollSend, &sendOprate);
+	
+	threadControl *pthreadControl = new threadControl(3,sendOprate.pLinkTable, recvOprate.pLinkTable);
+	classpoint *threadPool = (struct classpoint *)malloc(sizeof(classpoint))	;
+	threadPool->pThreadPool = pthreadControl->getThreadPool();
+	pthread_t thrdHeart;
+	pthread_create(&thrdHeart, NULL, threadControl::heartBreath, threadPool);
 
 while(1) {}
 	return 0;
