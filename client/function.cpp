@@ -39,6 +39,7 @@ void divide(char * dest,char * src,int start,int n)
 	while ( (* dest++ = * src++) && n-1)
 		n--;
 	* dest='\0';
+<<<<<<< HEAD
 }
 
 void intToChar(unsigned int dec,char ch[] ) {
@@ -59,4 +60,6 @@ int charToInt(char *changeBuffer) {
 		sum = sum + pow(10, length - i - 1) * (changeBuffer[i] - '0');
 	}
 	return sum;
+=======
+>>>>>>> f3ef76891cf061ffd9580a42c15246e0b1fbcb6e
 }

@@ -56,10 +56,14 @@ static void epollAnalyze(void *arg) {
 	// struct serverAnalyze *balabala = (struct serverAnalyze *)arg;
 	// cacheLinkTable *sendTable = (*balabala).pSendTable;
 	// cacheLinkTable *recvTable = (*balabala).pRecvTable;
+<<<<<<< HEAD
 
 	char buffer[MAXSIZE];
 	memset(&buffer, 0, sizeof(buffer));
 	serverAnalyze *pServerAnalyze = new serverAnalyze();
+=======
+	
+>>>>>>> f3ef76891cf061ffd9580a42c15246e0b1fbcb6e
 	while(1){
 		//cout<<"epoll analyze sendLinkTable Node NUM  "<<sendTable->getNodeNum()<<endl;
 		//cout<<"epoll analyze recvLinkTable Node NUM  "<<recvTable->getNodeNum()<<endl;
@@ -72,6 +76,7 @@ static void epollAnalyze(void *arg) {
 
 			cacheLinkNode *insertSendTableNode = new cacheLinkNode();
 
+<<<<<<< HEAD
 			//------------------------------
 			//messageBuffer *message = new messageBuffer();
 			
@@ -82,6 +87,10 @@ static void epollAnalyze(void *arg) {
 			//-------------------------------
 
 			//tempLinkNode->copyLinkNode(insertSendTableNode);
+=======
+
+			tempLinkNode->copyLinkNode(insertSendTableNode);
+>>>>>>> f3ef76891cf061ffd9580a42c15246e0b1fbcb6e
 
 			pthread_mutex_unlock(&RecvMutex);
 			cout<<"信息处理完毕"<<endl;
@@ -89,7 +98,11 @@ static void epollAnalyze(void *arg) {
 
 			pthread_mutex_lock(&SendMutex);
 			cout<<"正在加入发送队列"<<endl;
+<<<<<<< HEAD
 			//sendTable->insertNode(insertSendTableNode);
+=======
+			sendTable->insertNode(insertSendTableNode);
+>>>>>>> f3ef76891cf061ffd9580a42c15246e0b1fbcb6e
 			pthread_mutex_unlock(&SendMutex);
 			cout<<"添加完成"<<endl;
 

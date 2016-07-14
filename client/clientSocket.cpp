@@ -11,8 +11,12 @@
 #include <arpa/inet.h>
 
 
+<<<<<<< HEAD
 #include "package.cpp"
 //#include "function.cpp"
+=======
+#include "messageBuffer.cpp"
+>>>>>>> f3ef76891cf061ffd9580a42c15246e0b1fbcb6e
 #include "param.h"
 
 using namespace std;
