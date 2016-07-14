@@ -13,11 +13,7 @@
 
 // #include "serverSocket.cpp"
 // #include "epoll.cpp"
-<<<<<<< HEAD
 //#include "serverAnalyze.cpp"
-=======
-// #include "serverAnalyze.cpp"
->>>>>>> f3ef76891cf061ffd9580a42c15246e0b1fbcb6e
 #include "threadControl.cpp"
 
 //#include "queuePool.cpp"

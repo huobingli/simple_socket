@@ -12,7 +12,6 @@
 #include <pthread.h>
 
 #include "clientSocket.cpp"
-<<<<<<< HEAD
 //#include "function.cpp"
 using namespace std;
 
@@ -54,11 +53,6 @@ static void *test(void *arg) {
 	}
 }
 
-=======
-using namespace std;
-
-
->>>>>>> f3ef76891cf061ffd9580a42c15246e0b1fbcb6e
 
 int main()
 {
@@ -72,19 +66,12 @@ int main()
 	
 	clientsocket->judgeFlag();
 
-<<<<<<< HEAD
 	pthread_t thrd1, thrd2, thrd3, thrd4, thrd5, thrd6, thrd7, thrd8, thrd9, thrd10;
-=======
-	pthread_t thrd1, thrd2;
->>>>>>> f3ef76891cf061ffd9580a42c15246e0b1fbcb6e
 
 	pthread_create(&thrd1, NULL, clientSocket::sendSocket, &st);
 	pthread_create(&thrd2, NULL, clientSocket::recvSocket, &st);
 
-<<<<<<< HEAD
 	pthread_create(&thrd3, NULL, test, &st);
-=======
->>>>>>> f3ef76891cf061ffd9580a42c15246e0b1fbcb6e
 	//pthread_join(thrd1, NULL);
 	pthread_join(thrd2, NULL);
 	//pthread_detach(thrd1);
