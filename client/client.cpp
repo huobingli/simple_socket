@@ -42,7 +42,7 @@ static void *test(void *arg) {
 		strcat(buffer, "\0");
 
 		cout<<buffer<<endl;
-
+		cout<<strlen(buffer)<<endl;
 		send(st, buffer, strlen(buffer), 0);
 		sleep(1);
 	}
